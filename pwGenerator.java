@@ -21,6 +21,10 @@ import java.util.*;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 
+import java.awt.datatransfer.StringSelection;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+
 public class pwGenerator {
 
 	private JFrame frame;
@@ -95,8 +99,14 @@ public class pwGenerator {
 				
 				int length = (Integer) pwLength.getValue();
 				pwFinalRandom = new String[length];
+				int spinnerValue = (Integer) pwLength.getValue();
 				
-				
+				if (spinnerValue == 0)
+				{
+					JOptionPane.showMessageDialog(null, "Password length must not be 0");
+					
+				}
+	
 				if ((lowercase_CB.isSelected() == false)&&(uppercase_CB.isSelected() == false)&&(numbers_CB.isSelected() == false) &&(specchar_CB.isSelected() == false))
 				{
 					JOptionPane.showMessageDialog(null, "Please Select at least one Check box.");
@@ -110,6 +120,10 @@ public class pwGenerator {
 				pwTxt.setText(pwPlacement);
 				pwPlacement = "";
 				//testing
+				
+				StringSelection stringSelection = new StringSelection(pwTxt.getText());
+				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+				clipboard.setContents(stringSelection, null);
 			
 			}
 		});
@@ -129,7 +143,7 @@ public class pwGenerator {
 		lblNewLabel_1.setBounds(82, 110, 180, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		lowercase_CB = new JCheckBox("");
+		lowercase_CB = new JCheckBox("", true);
 		lowercase_CB.setBackground(Color.DARK_GRAY);
 		lowercase_CB.setBounds(277, 149, 18, 18);
 		frame.getContentPane().add(lowercase_CB);
@@ -159,7 +173,7 @@ public class pwGenerator {
 		lblIncludeNumbers.setBounds(82, 190, 180, 14);
 		frame.getContentPane().add(lblIncludeNumbers);
 		
-		JLabel lblIncludeSpeicalCharacters = new JLabel("Include Speical Characters");
+		JLabel lblIncludeSpeicalCharacters = new JLabel("Include Special Characters");
 		lblIncludeSpeicalCharacters.setForeground(Color.WHITE);
 		lblIncludeSpeicalCharacters.setBounds(82, 234, 180, 14);
 		frame.getContentPane().add(lblIncludeSpeicalCharacters);
@@ -173,6 +187,11 @@ public class pwGenerator {
 		specchar_CB.setBackground(Color.DARK_GRAY);
 		specchar_CB.setBounds(277, 230, 18, 18);
 		frame.getContentPane().add(specchar_CB);
+		
+		JLabel lblClickText = new JLabel("Text will be copied to Clipboard on Generate");
+		lblClickText.setForeground(Color.WHITE);
+		lblClickText.setBounds(115, 421, 284, 14);
+		frame.getContentPane().add(lblClickText);
 		
 		
 		//test
